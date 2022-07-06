@@ -7,21 +7,29 @@
     <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
 </head>
 <body>
-<input pys-onClick="feature_check" type="submit" id="load_file" value="Test">
+<body>
+    <button class="bg-green-500 hover:bg-green-500 text-gray-800 font-bold py-1 px-2 rounded-l" id='btnx' pys-onClick='add_button'></button>
+        Try
+        <py-script>
+            def add_button(self):
+                console.log("function is called!")
+        </py-script>
+</body>
+<!--<input pys-onClick="feature_check" type="submit" id="load_file" value="Test">-->
 
-<py-script>
-    import asyncio
-    from js import document, Object, window
-    from pyodide import create_proxy
+<!--<py-script>-->
+<!--    import asyncio-->
+<!--    from js import document, Object, window-->
+<!--    from pyodide import create_proxy-->
 
-    def feature_check(arg):
-        if hasattr(window, 'showOpenFilePicker'):
-            console.log('showOpenFilePicker present')
-        else:
-            console.log('showOpenFilePicker is not present')
-      # Do something here to let the user know or
-      # fallback to the FileReader class
-</py-script>
+<!--    def feature_check(arg):-->
+<!--        if hasattr(window, 'showOpenFilePicker'):-->
+<!--            console.log('showOpenFilePicker present')-->
+<!--        else:-->
+<!--            console.log('showOpenFilePicker is not present')-->
+<!--      # Do something here to let the user know or-->
+<!--      # fallback to the FileReader class-->
+<!--</py-script>-->
 
 <!--                                        try:-->
 <!--                                            options = {-->
