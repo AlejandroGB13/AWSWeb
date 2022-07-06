@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Main page</title>
     <link rel="stylesheet" type="text/css" href="/css/style.css" media="screen" />
+    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
 </head>
 <body>
 
@@ -43,25 +45,58 @@
         </div>
         <div class="box-root padding-top--24 flex-flex flex-direction--column" style="flex-grow: 1; z-index: 9;">
             <div class="box-root padding-top--48 padding-bottom--24 flex-flex flex-justifyContent--center">
-                <h1><a>Web test (AWS)</a></h1>
+<!--                <h1><a>Web test (AWS)</a></h1>-->
             </div>
             <div class="formbg-outer">
                 <div class="formbg">
                     <div class="formbg-inner padding-horizontal--48">
-                        <span class="padding-bottom--15">Título</span>
-                        <form id="stripe-login" action="loading.html">
+                        <span class="padding-bottom--15">Web test (AWS)</span>
+                        <form id="stripe-login">
                             <div class="field padding-bottom--24">
                                 <label>Descripción</label>
                             </div>
+<!--                            <div class="field padding-bottom&#45;&#45;24">-->
+<!--                                <div class="grid&#45;&#45;50-50">-->
+<!--                                    <label>Pulse el siguiente botón para subir el fichero</label>-->
+<!--                                    <div class="reset-pass">-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
                             <div class="field padding-bottom--24">
-                                <div class="grid--50-50">
-                                    <label>Pulse el siguiente botón para subir el fichero</label>
-                                    <div class="reset-pass">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="field padding-bottom--24">
-                                <input type="submit" name="submit" value="Subir fichero">
+                                <label for="myfile">Seleccionar fichero:</label>
+                                <input type="file" id="myfile" name="myfile">
+                                <br><br>
+<!--                                <input pys-onClick="upload_file" type="submit" id="load_file" value="Subir fichero">-->
+                                <py-script>
+                                    import asyncio
+                                    from js import document, FileReader
+                                    from pyodide import create_proxy
+
+                                    async def process_file(event):
+                                        f = open(r'C:\Users\Alejandro\Desktop\web_AWS\test.txt', 'a')
+                                        f.write("Hello world!")
+                                        f.close()
+
+                                        fileList = event.target.files.to_py()
+
+                                        for f in fileList:
+                                            data = await f.text()
+                                            print(data)
+                                    <!--            document.getElementById("content").innerHTML = data-->
+
+                                    def main():
+                                    # Create a Python proxy for the callback function
+                                    # process_file() is your function to process events from FileReader
+                                        file_event = create_proxy(process_file)
+
+                                    # Set the listener to the callback
+                                        e = document.getElementById("myfile")
+                                        e.addEventListener("change", file_event, False)
+
+                                    main()
+                                </py-script>
+<!--                                <br><br>-->
+                                <input formaction="loading.html" type="submit" name="execute" value="Ejecutar script">
                             </div>
                         </form>
                     </div>
