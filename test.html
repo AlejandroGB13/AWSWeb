@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+</head>
+<body>
+<input pys-onClick="feature_check" type="submit" id="load_file" value="Test">
+
+<py-script>
+    import asyncio
+    from js import document, Object, window
+    from pyodide import create_proxy
+
+    def feature_check(arg):
+        if hasattr(window, 'showOpenFilePicker'):
+            console.log('showOpenFilePicker present')
+        else:
+            console.log('showOpenFilePicker is not present')
+      # Do something here to let the user know or
+      # fallback to the FileReader class
+</py-script>
+
+<!--                                        try:-->
+<!--                                            options = {-->
+<!--                                                "startIn": "desktop",-->
+<!--                                                "suggestedName": "testfile.txt"-->
+<!--                                            }-->
+<!--                                            fileHandle = await window.showSaveFilePicker(Object.fromEntries(to_js(options)))-->
+<!--                                        except Exception as e:-->
+<!--                                            console.log('Exception: ' + str(e))-->
+<!--                                            return-->
+<!--https://www.jhanley.com/pyscript-files-and-file-systems-part-2/-->
+</body>
+</html>

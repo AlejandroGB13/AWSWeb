@@ -50,6 +50,7 @@
             <div class="formbg-outer">
                 <div class="formbg">
                     <div class="formbg-inner padding-horizontal--48">
+                        <img src="./logo.jpg">
                         <span class="padding-bottom--15">Web test (AWS)</span>
                         <form id="stripe-login">
                             <div class="field padding-bottom--24">
@@ -69,20 +70,31 @@
 <!--                                <input pys-onClick="upload_file" type="submit" id="load_file" value="Subir fichero">-->
                                 <py-script>
                                     import asyncio
-                                    from js import document, FileReader
-                                    from pyodide import create_proxy
+                                    from js import document, Object, window
+                                    from pyodide import create_proxy, to_js
 
                                     async def process_file(event):
-                                        f = open(r'C:\Users\Alejandro\Desktop\web_AWS\test.txt', 'a')
-                                        f.write("Hello world!")
-                                        f.close()
+                                        # Create empty file -> make sure that the browser support window.showSaveFilePicker
+                                        try:
+                                            options = {
+                                                "startIn": "desktop",
+                                                "suggestedName": "testfile.txt"
+                                            }
+                                            fileHandle = await window.showSaveFilePicker(Object.fromEntries(to_js(options)))
+                                        except Exception as e:
+                                            console.log('Exception: ' + str(e))
+                                            return
 
+                                        # Open created file and uploaded file
+                                        file = await fileHandle.createWritable()
                                         fileList = event.target.files.to_py()
 
+                                        # Copy each line from uploaded file to created file and save the file
                                         for f in fileList:
                                             data = await f.text()
                                             print(data)
-                                    <!--            document.getElementById("content").innerHTML = data-->
+                                            await file.write(f)
+                                        await file.close()
 
                                     def main():
                                     # Create a Python proxy for the callback function
@@ -95,7 +107,14 @@
 
                                     main()
                                 </py-script>
-<!--                                <br><br>-->
+
+<!--                                <input pys-onClick="run_scripts" type="submit" id="load_file" value="Ejecutar (python button">-->
+<!--                                <py-script>-->
+<!--                                    def run_scripts():-->
+
+<!--                                </py-script>-->
+                                <br><br>
+
                                 <input formaction="loading.html" type="submit" name="execute" value="Ejecutar script">
                             </div>
                         </form>
