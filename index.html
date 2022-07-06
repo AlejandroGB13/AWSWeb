@@ -92,7 +92,7 @@
                                         # Copy each line from uploaded file to created file and save the file
                                         for f in fileList:
                                             data = await f.text()
-                                            print(data)
+                                            console.log(data)
                                             await file.write(f)
                                         await file.close()
 
